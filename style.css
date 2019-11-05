@@ -1,0 +1,27 @@
+body {
+    text-align: center;
+    background: brown;
+
+}
+
+#container {
+    margin-top: 2%;
+    display: flex;
+    justify-content: center;
+}
+
+.teamStyle {
+    text-align: center;
+    padding: 1%;
+    padding-top: 0;
+    font-size: larger;
+    border: 4px dashed darkgoldenrod;
+}
+
+#homeTeam {
+    margin-right: 4px
+}
+
+#awayTeam {
+    margin-left: 4px
+}
