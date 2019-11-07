@@ -2,13 +2,10 @@
 
   function Team(props) {
     return (<div>
-      <h4>{props.teamData.name}!</h4>
+      <p>{props.teamData.name}!</p>
       <img alt="team logo" width={200} src={props.teamData.logo} />
 
-      <div>
-        {" "}Shots: {props.teamStats.shots + " "}
-        {" "}Score: {props.teamStats.score + " "}
-      </div>
+      
 
       <button onClick={props.handleShoot}>SHOOT</button>
 
@@ -18,6 +15,24 @@
         </div>
       }
     </div>)
+  }
+
+  function Scoreboard(props) {
+    return (
+      <div id="scoreBoard">
+        <div className="teamStats">
+          <p>Home</p>
+          {" "}Shots: {props.homeStats.shots + " "}
+          {" "}Score: {props.homeStats.score + " "}
+        </div>
+
+        <div className="teamStats">
+          <p>Away</p>
+          {" "}Shots: {props.awayStats.shots + " "}
+          {" "}Score: {props.awayStats.score + " "}
+        </div>
+      </div>
+    )
   }
 
   class Game extends React.Component {
@@ -45,6 +60,8 @@
       curTeam.shots++;
       if (Math.random() >= .5) {
         curTeam.score++;
+        this.sound.pause();
+        this.sound.currentTime = 0;
         this.sound.play();
       }
       this.setState({
@@ -69,6 +86,9 @@
     render() {
       return (<div>
         <h1>Welcome to {this.props.venue} Quidditch Match!</h1>
+
+        <Scoreboard homeStats={this.state.homeTeamStats} awayStats={this.state.awayTeamStats}/>
+        
         <div id="container">
 
           <div id="homeTeam" className="teamStyle" style={{ backgroundColor: this.props.homeTeam.backgroundColor }}>
@@ -89,7 +109,7 @@
         </div>
 
         <div>
-          <button onClick={this.handleReset}>RESET GAME</button>
+          <button id="resetButton" onClick={this.handleReset}>RESET GAME</button>
         </div>
         
       </div>)
