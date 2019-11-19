@@ -48,21 +48,33 @@
         awayTeamStats: {
           shots: 0,
           score: 0
-        }
+        },
+
+        resets: 0
       }
 
-      this.sound = new Audio("cheer.mp3")
+      this.shootSound = new Audio("soccer.mp3")
+      this.scoreSound = new Audio("cheer.mp3")
     }
 
     handleShoot = (team, event) => {
       const teamKey = `${team}Stats`;
       let curTeam = this.state[teamKey];
+
+      this.scoreSound.pause();
+      this.scoreSound.currentTime = 0;
+
+      this.shootSound.pause();
+      this.shootSound.currentTime = 0;
+
+      this.shootSound.play();
+
       curTeam.shots++;
       if (Math.random() >= .5) {
+        this.scoreSound.pause();
+        this.scoreSound.currentTime = 0;
+        this.scoreSound.play();
         curTeam.score++;
-        this.sound.pause();
-        this.sound.currentTime = 0;
-        this.sound.play();
       }
       this.setState({
         [teamKey]: curTeam
@@ -79,7 +91,8 @@
       awayTeam.score = 0;
       this.setState({
         homeTeamStats: homeTeam,
-        awayTeamStats: awayTeam
+        awayTeamStats: awayTeam,
+        resets: this.state.resets + 1
       })
     }
 
@@ -110,6 +123,7 @@
 
         <div>
           <button id="resetButton" onClick={this.handleReset}>RESET GAME</button>
+          <h3>Resets: {this.state.resets || 0}</h3>
         </div>
         
       </div>)
